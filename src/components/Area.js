@@ -777,11 +777,6 @@ Area.Text = class AreaText extends AreaComponent {
     this.children.splice(index, 1);
   }
 
-  insertChild(child, beforeChild) {
-    const beforeIndex = this.children.indexOf(beforeChild);
-    this.children.splice(beforeIndex, 0, child);
-  }
-
   update(oldProps, newProps) {
     this.props = { ...this.props, ...newProps, ...newProps.children };
 
@@ -933,16 +928,10 @@ Area.Text = class AreaText extends AreaComponent {
   }
 };
 
-function areaTextProp(props, propName, componentName) {
+function areaProp(props, propName, componentName) {
   const v = props[propName];
   if (
-    !(
-      v === false || // Needed for conditional rendering
-      v === null ||
-      typeof v === 'string' ||
-      v.type === 'AREATEXT' ||
-      v.type === StyledText
-    )
+    !(typeof v === 'string' || v.type === 'AREATEXT' || v.type === StyledText)
   ) {
     return new Error(
       'Invalid prop `' +
@@ -957,8 +946,9 @@ function areaTextProp(props, propName, componentName) {
 
 Area.Text.propTypes = {
   children: PropTypes.oneOfType([
-    areaTextProp,
-    PropTypes.arrayOf(areaTextProp),
+    areaProp,
+    PropTypes.arrayOf(areaProp),
+    PropTypes.bool,
   ]),
   x: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   y: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
