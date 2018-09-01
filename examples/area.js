@@ -12,15 +12,40 @@ import {
 } from '../src/';
 
 class Example extends Component {
-  state = { bool: false, val: 40, dragging: false, pos: { x: 50, y: 220 } };
+  state = {
+    bool: false,
+    val: 40,
+    dragging: false,
+    pos: { x: 50, y: 220 },
+    areaHeight: '',
+  };
+
+  constructor(props) {
+    super(props);
+    this.area = React.createRef();
+    this.onContentSizeChange = this.onContentSizeChange.bind(this);
+  }
+
+  onContentSizeChange() {
+    this.setState({
+      areaHeight: this.area.current ? this.area.current.getHeight() : '',
+    });
+  }
 
   render() {
     return (
       <App>
-        <Window title="Test" size={{ w: 600, h: 650 }} margined={true}>
+        <Window
+          title="Test"
+          size={{ w: 600, h: 650 }}
+          margined={true}
+          onContentSizeChange={this.onContentSizeChange}
+        >
           <Box padded>
             <Text stretchy={false}>Try dragging the circle!</Text>
+            <Text>{`Area height: ${this.state.areaHeight} px`}</Text>
             <Area
+              ref={this.area}
               // onKeyUp={e => {
               //   console.log('up', e.key);
               //   return true;

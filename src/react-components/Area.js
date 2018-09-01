@@ -26,6 +26,19 @@ const AreaComponentDefaultProps = {
 };
 
 class Area extends Component {
+  constructor(props) {
+    super(props);
+    this.areaInternal = React.createRef();
+  }
+
+  getWidth() {
+    return this.areaInternal.current && this.areaInternal.current.width;
+  }
+
+  getHeight() {
+    return this.areaInternal.current && this.areaInternal.current.height;
+  }
+
   render() {
     const {
       children,
@@ -61,6 +74,7 @@ class Area extends Component {
       onMouseLeave,
       onKeyUp,
       onKeyDown,
+      ref: this.areaInternal,
     };
     return React.createElement(
       HasAreaParentContext.Provider,

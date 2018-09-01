@@ -103,9 +103,14 @@ class Area extends DesktopComponent {
     this.root = root;
     this.props = { ...props };
     this.setDefaults(props);
+    this.width = null;
+    this.height = null;
 
     this.element = new libui.UiArea(
       (area, p) => {
+        this.width = p.getAreaWidth();
+        this.height = p.getAreaHeight();
+
         for (let i = 0; i < this.children.length; i += 1) {
           if (typeof this.children[i] === 'object') {
             this.children[i].render(this, area, p);
